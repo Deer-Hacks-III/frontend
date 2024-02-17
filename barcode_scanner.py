@@ -12,8 +12,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit
 from pyzbar import pyzbar
 
-
-
+from Reader import ProductReader, Item
+from InfoBox import ProductPopup
 class QRScanner(QMainWindow):
     """
     Main application window class
@@ -54,6 +54,9 @@ class QRScanner(QMainWindow):
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
         file_menu.addAction(change_cam_action)
+        self.reader = ProductReader()
+
+        
     def change_cam(self) -> None:
         """
         Method that changes the camera source
@@ -117,9 +120,23 @@ class QRScanner(QMainWindow):
         ptr.setsize(img.byteCount())
         arr = np.array(ptr).reshape(height, width)
         barcodes = pyzbar.decode(arr)
-        for barcode in barcodes:
-            data = barcode.data.decode("utf-8")
-            print(data)
+        if len(barcodes) < 0:
+            return
+        barcode = barcodes[0]
+        barcode_data = barcode.data.decode("utf-8")
+        try:
+            item = self.reader.get_product(barcode_data)
+        except:
+            msg = QMessageBox()
+            msg.setWindowTitle("Error")
+            msg.setText("An error occurred while trying to get the product information. Please try eigen, or check your internet connection.")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowIcon(QtGui.QIcon('tCketManage.png'))
+            msg.setWindowFlags(Qt.WindowStaysOnTopHint)
+            msg.exec_()
+            return
+        popup = ProductPopup(item.name, item.image, item.eco_grade)
+        popup.exec_()
 
 
     def capture_image(self) -> None:
@@ -133,7 +150,8 @@ class QRScanner(QMainWindow):
 
 
 if __name__ == "__main__":
-
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
     app = QApplication(sys.argv)
 
     # Step one: Check if the user has an internet connection
