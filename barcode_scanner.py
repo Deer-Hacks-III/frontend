@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
 from pyzbar import pyzbar
 
 from Reader import ProductReader, Item
-from InfoBox import ProductPopup
+from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
     Main application window class
@@ -120,7 +120,7 @@ class QRScanner(QMainWindow):
         ptr.setsize(img.byteCount())
         arr = np.array(ptr).reshape(height, width)
         barcodes = pyzbar.decode(arr)
-        if len(barcodes) < 0:
+        if len(barcodes) == 0:
             return
         barcode = barcodes[0]
         barcode_data = barcode.data.decode("utf-8")
@@ -153,6 +153,7 @@ if __name__ == "__main__":
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
     app = QApplication(sys.argv)
+    app.setAttribute(Qt.AA_EnableHighDpiScaling)
 
     # Step one: Check if the user has an internet connection
     try:
