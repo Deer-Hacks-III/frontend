@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
     
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
 
@@ -63,6 +63,7 @@ class ListElement(QWidget):
         self.setLayout(layout)
     
     def remove_from_list(self):
+        
         self._parent.db.delete_upc(self.item.get_upc())        
         # Oh my god this is the nastiest hack of the entire codebase
         # The sheer fact that this works is nothing short of a miracle

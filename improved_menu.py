@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit, QHBoxLayout,
                              QStackedLayout)
 from barcode_scanner import QRScanner
-
+from Database import UPCManager, UPCManagerLocal
+from list import ListScreen, ListElement
 
 class MainApplication(QDialog):
 
@@ -18,12 +19,10 @@ class MainApplication(QDialog):
         self.setGeometry(100, 100, 800, 650)
         # Scan layouts
         self.current_window = QStackedLayout()
-        self.scan_layout = self.create_scan_layout()
         self.scan_button = QPushButton(f"Scanning")
         self.scan_button.clicked.connect(self.set_scan_layout)
 
         # Shopping Layouts
-        self.list_layout = self.create_list_layout()
         self.list_button = QPushButton(f"Shopping List")
         self.list_button.clicked.connect(self.set_list_layout)
 
@@ -32,26 +31,13 @@ class MainApplication(QDialog):
         self.bottom_layout.addWidget(self.scan_button)
         # By default, be at the scan layout
 
-        self.current_window.addWidget(QLabel("Shopping list blah blah"))
+        self.current_window.addWidget(ListScreen(database))
         self.current_window.addWidget(QRScanner())
-
-        self.current_window.addChildLayout(self.scan_layout)
         self.current_window.setCurrentIndex(0)
 
         self.main_layout.addLayout(self.current_window)
         self.main_layout.addLayout(self.bottom_layout)
         self.setLayout(self.main_layout)
-
-    def create_scan_layout(self) -> QVBoxLayout:
-        layout = QVBoxLayout()
-        scanner = QRScanner()
-        layout.addWidget(scanner)
-        return layout
-
-    def create_list_layout(self) -> QVBoxLayout:
-        layout = QVBoxLayout()
-        layout.addWidget(QLabel("Shopping list"))
-        return layout
 
     def set_scan_layout(self) -> None:
         self.current_window.setCurrentIndex(1)
@@ -66,6 +52,7 @@ class MainApplication(QDialog):
     def update_layout(self) -> None:
         self.main_layout = QVBoxLayout()
         self.current_window.update()
+        self.list_layout
         self.main_layout.addLayout(self.current_window)
 
         self.main_layout.addLayout(self.bottom_layout)
@@ -75,6 +62,8 @@ class MainApplication(QDialog):
 
 
 if __name__ == "__main__":
+    database = UPCManagerLocal()
+    database.upcs = ["8410199271396", "3168930158905"]
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
     app = QApplication(sys.argv)
