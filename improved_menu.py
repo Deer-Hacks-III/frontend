@@ -20,11 +20,13 @@ class MainApplication(QDialog):
         self.current_window = QStackedLayout()
         self.scan_layout = self.create_scan_layout()
         self.scan_button = QPushButton(f"Scanning")
+        self.scan_button.setStyleSheet("QPushButton {background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;} QPushButton:hover {background-color: rgb(121, 170, 252); border: 1px solid rgb(26, 56, 107);}")
         self.scan_button.clicked.connect(self.set_scan_layout)
 
         # Shopping Layouts
         self.list_layout = self.create_list_layout()
         self.list_button = QPushButton(f"Shopping List")
+        self.list_button.setStyleSheet("QPushButton {background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;} QPushButton:hover {background-color: rgb(121, 170, 252); border: 1px solid rgb(26, 56, 107);}")
         self.list_button.clicked.connect(self.set_list_layout)
 
         self.bottom_layout = QHBoxLayout()

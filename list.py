@@ -58,7 +58,7 @@ class ListElement(QWidget):
         remove_button = QPushButton("")
         trash_icon = QIcon('icons/trash-can.svg')
         remove_button.setIcon(QIcon(trash_icon))
-        remove_button.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px;")
+        remove_button.setStyleSheet("QPushButton {background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;} QPushButton:hover {background-color: rgb(121, 170, 252); border: 1px solid rgb(26, 56, 107);}")
         remove_button.setMinimumWidth(85)
         remove_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Set size policy
         remove_button.clicked.connect(self.remove_from_list)

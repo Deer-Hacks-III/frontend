@@ -56,6 +56,7 @@ class QRScanner(QDialog):
 
         # Add a button to capture an image
         self.capture_button = QPushButton("Scan")
+        self.capture_button.setStyleSheet("QPushButton {background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;} QPushButton:hover {background-color: rgb(121, 170, 252); border: 1px solid rgb(26, 56, 107);}")
         self.capture_button.clicked.connect(self.capture_image)
         layout.addWidget(self.capture_button)
 
@@ -74,12 +75,15 @@ class QRScanner(QDialog):
         """
         menu_bar = QMenuBar(self)
         file_menu = QMenu("File", self)
+        file_menu.setStyleSheet("background-color: rgb(194, 217, 255); selection-background-color: rgb(81, 128, 207);")
         menu_bar.addMenu(file_menu)
         
         # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
         file_menu.addAction(change_cam_action)
+
+        menu_bar.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;")
 
         self.layout().setMenuBar(menu_bar)
 
