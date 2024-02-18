@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit
 
 import barcode_scanner
-import list
+import list2
 
 class MainMenu(QDialog):
 
