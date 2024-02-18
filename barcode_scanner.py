@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
@@ -56,9 +56,9 @@ class QRScanner(QDialog):
 
         # Add a button to capture an image
         self.capture_button = QPushButton("Scan")
+        self.capture_button.clicked.connect(self.capture_image)
         self.capture_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
                                     QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
-        self.capture_button.clicked.connect(self.capture_image)
         layout.addWidget(self.capture_button)
 
         self.camera.setCaptureMode(QtMultimedia.QCamera.CaptureStillImage)
@@ -78,14 +78,13 @@ class QRScanner(QDialog):
         file_menu = QMenu("File", self)
         file_menu.setStyleSheet("background-color: rgb(194, 217, 255); selection-background-color: rgb(81, 128, 207);")
         menu_bar.addMenu(file_menu)
+        menu_bar.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;")
         
         # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
-        change_cam_action.triggered.connect(self.change_cam)
         change_cam_action.setIcon(QIcon("icons/camera.svg"))
+        change_cam_action.triggered.connect(self.change_cam)
         file_menu.addAction(change_cam_action)
-
-        menu_bar.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;")
 
         self.layout().setMenuBar(menu_bar)
 
@@ -142,6 +141,7 @@ class QRScanner(QDialog):
         self.camera.start()
         self.current_index = selection
         self.popup.close()
+        
 
     def process_image(self, img: QImage) -> None:
         """
@@ -181,6 +181,12 @@ class QRScanner(QDialog):
         :return:
         """
         self.process_image(self.camera_view.grab().toImage())
+    
+    def start_camera(self) -> None:
+        self.camera.start()
+
+    def stop_camera(self) -> None:
+        self.camera.stop()
 
 
 
