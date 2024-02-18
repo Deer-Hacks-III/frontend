@@ -41,6 +41,7 @@ class MainApplication(QDialog):
 
         self.main_layout.addLayout(self.current_window)
         self.main_layout.addLayout(self.bottom_layout)
+        self.setStyleSheet("MainApplication {background-color: rgb(230, 230, 250);}")
         self.setLayout(self.main_layout)
 
     def set_scan_layout(self) -> None:

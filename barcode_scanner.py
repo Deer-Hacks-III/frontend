@@ -100,9 +100,11 @@ class QRScanner(QDialog):
         # Create the layout and add the dropdown menu and button
         layout = QVBoxLayout(self.popup)
         self.combo = QComboBox(self.popup)
+        self.combo.setStyleSheet("background-color: rgb(217,237,247); border: 1px solid rgb(83, 115, 145); border-radius: 5px; padding: 5px;")
         # Move it to the center of the screen
         self.popup.move(500, 500)
         # Add a label to the popup
+        self.popup.setStyleSheet("background-color: rgb(230, 230, 250);")
         self.popup.setWindowTitle("Select Camera")
         self.popup.setWindowFlags(Qt.WindowStaysOnTopHint)
         # Increase size
