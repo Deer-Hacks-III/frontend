@@ -6,13 +6,13 @@ import requests
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QImage, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
@@ -81,6 +81,7 @@ class QRScanner(QDialog):
         # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
+        change_cam_action.setIcon(QIcon("icons/camera.svg"))
         file_menu.addAction(change_cam_action)
 
         menu_bar.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;")
