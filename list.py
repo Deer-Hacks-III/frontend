@@ -50,7 +50,7 @@ class ListElement(QWidget):
         layout.addWidget(image_label, 1)  # Set stretch factor to 1 for the image
 
         # Product Name
-        name_label = QLabel(item.get_name())
+        name_label = QLabel(f'{item.get_name()}\nProduct Score: {item.get_score()}')
         name_label.setStyleSheet("color: rgb(0, 26, 69);")
         layout.addWidget(name_label, 2)  # Set stretch factor to 2 for the name
 
