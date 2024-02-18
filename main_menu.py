@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QLabel, \
     QSplashScreen, QMenu, QAction, QWidget, QVBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit
 
-
+import barcode_scanner
+import List
 class MainMenu(QDialog):
 
     shop_list_caller: callable
@@ -34,10 +35,12 @@ class MainMenu(QDialog):
         self.setLayout(self.layout)
 
 def shop_list() -> None:
-    print("shopping list!")
+    l = List.ListScreen(List.UPCManager("http://127.0.0.1:5000"))
+    l.exec()
 
 def scan_menu() -> None:
-    print("Scanning time")
+    s = barcode_scanner.QRScanner()
+    s.show()
 
 if __name__ == "__main__":
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling

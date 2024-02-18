@@ -1,6 +1,7 @@
 from __future__ import annotations
 import openfoodfacts
 from typing import Union
+import random
 
 class ProductReader:
     """
@@ -21,7 +22,7 @@ class ProductReader:
         name = product['product'].get('product_name_en', product['product'].get("product_name", ""))
         # In case the product name was not filled
         if name == "":
-            name = item['product']['ecoscore_data']['agribalyse']['name_en']
+            name = product['product']['ecoscore_data']['agribalyse']['name_en']
 
         image = product['product']['selected_images']['front']['display']
         # Pick a random image from the list of images
@@ -68,7 +69,7 @@ class Item:
     materials: int
 
     def __init__(self, name: str, image: str, eco_grade: str,
-                 materials: int, cat: list[str]) -> None:
+                 materials: int, cat: list[str], upc: str) -> None:
         if name == "":
             name = "No Name Available"
         self.name = name

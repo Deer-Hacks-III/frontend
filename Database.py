@@ -18,7 +18,8 @@ class UPCManager:
 
     def get_all_upcs(self):
         response = requests.get(f"{self.base_url}/list")
-        return response.json()
+        x = response.json()
+        return [y.get("upc") for y in x]
 
 class UPCManagerLocal:
     def __init__(self):
