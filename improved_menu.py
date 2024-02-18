@@ -42,6 +42,7 @@ class MainApplication(QDialog):
 
         self.main_layout.addLayout(self.current_window)
         self.main_layout.addLayout(self.bottom_layout)
+        self.setStyleSheet("background-color: rgb(228, 207, 255);")
         self.setLayout(self.main_layout)
 
     def create_scan_layout(self) -> QVBoxLayout:
