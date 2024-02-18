@@ -46,6 +46,8 @@ class MainApplication(QDialog):
 
     def set_list_layout(self) -> None:
         self.current_window.setCurrentIndex(0)
+        # Get the ListScreen
+        self.current_window.widget(0).update_list(database.get_all_upcs())
         #self.current_window = self.list_layout
         #self.update_layout()
 
@@ -62,8 +64,7 @@ class MainApplication(QDialog):
 
 
 if __name__ == "__main__":
-    database = UPCManagerLocal()
-    database.upcs = ["8410199271396", "3168930158905"]
+    database = UPCManager("http://127.0.0.1:5000")
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
     app = QApplication(sys.argv)

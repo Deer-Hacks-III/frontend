@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit
 
 import barcode_scanner
-import List
+import list
+
 class MainMenu(QDialog):
 
     shop_list_caller: callable

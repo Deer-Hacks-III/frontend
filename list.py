@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
@@ -6,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
     
-from reader import ProductReader, Item
+from Reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
 
@@ -20,13 +21,14 @@ class ListScreen(QDialog):
         self.update_list(db.get_all_upcs())
         
     def update_list(self, upcs: list[str]):
-        if not self.layout:
+        if self.layout is None:
             self.layout = QVBoxLayout()
             self.setLayout(self.layout)
         else:
             # Clear the layout
-            for i in reversed(range(self.layout.count())):
-                self.layout.itemAt(i).widget().setParent(None)
+            if self.layout.count() > 0:
+                for i in reversed(range(self.layout.count())):
+                    self.layout.itemAt(i).widget().setParent(None)
         self.items = []
         self.pr = ProductReader()
         for upc in upcs:
@@ -89,4 +91,4 @@ if __name__ == "__main__":
     database.upcs = ["8410199271396", "3168930158905"]
     ls = ListScreen(database)
     ls.show()
-    app.exec_()
+    sys.exit(app.exec_())
