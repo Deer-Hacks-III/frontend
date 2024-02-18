@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
-from reader import ProductReader, Item
+from Reader import ProductReader, Item
 from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
@@ -56,7 +56,8 @@ class QRScanner(QDialog):
 
         # Add a button to capture an image
         self.capture_button = QPushButton("Scan")
-        self.capture_button.setStyleSheet("QPushButton {background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px; padding: 5px;} QPushButton:hover {background-color: rgb(121, 170, 252); border: 1px solid rgb(26, 56, 107);}")
+        self.capture_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
+                                    QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
         self.capture_button.clicked.connect(self.capture_image)
         layout.addWidget(self.capture_button)
 
@@ -100,11 +101,13 @@ class QRScanner(QDialog):
         # Create the layout and add the dropdown menu and button
         layout = QVBoxLayout(self.popup)
         self.combo = QComboBox(self.popup)
+        self.combo.setStyleSheet("background-color: rgb(217,237,247); border: 1px solid rgb(83, 115, 145); border-radius: 5px; padding: 5px;")
         # Move it to the center of the screen
         self.popup.move(500, 500)
         # Add a label to the popup
         self.popup.setWindowTitle("Select Camera")
         self.popup.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.popup.setStyleSheet("background-color: rgb(230, 230, 250);")
         # Increase size
         self.popup.resize(350, 100)
         label = QLabel(self.popup)
