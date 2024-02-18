@@ -50,6 +50,7 @@ class ListElement(QWidget):
 
         # Product Name
         name_label = QLabel(f'{item.get_name()}\nProduct Score: {item.get_score()}')
+        name_label.setStyleSheet("padding: 5px;")
         layout.addWidget(name_label, 2)  # Set stretch factor to 2 for the name
 
         # Remove Button
@@ -59,12 +60,12 @@ class ListElement(QWidget):
         remove_button.setMinimumWidth(85)
         remove_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Set size policy
         remove_button.clicked.connect(self.remove_from_list)
-        remove_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
-                                    QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
+        remove_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 3px solid white; border-radius: 15px; padding: 5px;} \
+                                    QPushButton:hover {background-color: rgb(175,217,238);}")
         layout.addWidget(remove_button, 1)  # Set stretch factor to 1 for the button
 
         layout.setContentsMargins(10, 10, 10, 10)
-        self.setStyleSheet("ListElement { background-color: rgb(212,192,217);  border: 1.5px solid rgb(169,130,180); border-radius: 10px;}")
+        self.setStyleSheet("ListElement { background-color: rgb(212,192,217);  border: 3px solid rgb(169,130,180); border-radius: 15px;}")
         self.setAttribute(Qt.WA_StyledBackground)
 
         self.setLayout(layout)
