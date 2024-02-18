@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
@@ -141,6 +141,7 @@ class QRScanner(QDialog):
         self.camera.start()
         self.current_index = selection
         self.popup.close()
+        
 
     def process_image(self, img: QImage) -> None:
         """
@@ -180,6 +181,12 @@ class QRScanner(QDialog):
         :return:
         """
         self.process_image(self.camera_view.grab().toImage())
+    
+    def start_camera(self) -> None:
+        self.camera.start()
+
+    def stop_camera(self) -> None:
+        self.camera.stop()
 
 
 
