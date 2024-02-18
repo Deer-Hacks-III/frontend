@@ -6,13 +6,13 @@ import requests
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QIcon
+from PyQt5.QtGui import QImage
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 from InfoBox import ProductInformation as ProductPopup
 class QRScanner(QMainWindow):
     """
@@ -56,8 +56,6 @@ class QRScanner(QDialog):
 
         # Add a button to capture an image
         self.capture_button = QPushButton("Scan")
-        self.capture_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
-                                    QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
         self.capture_button.clicked.connect(self.capture_image)
         layout.addWidget(self.capture_button)
 
@@ -76,16 +74,13 @@ class QRScanner(QDialog):
         """
         menu_bar = QMenuBar(self)
         file_menu = QMenu("File", self)
-        file_menu.setStyleSheet("background-color: rgb(217,237,247); selection-background-color: rgb(145, 176, 250);")
         menu_bar.addMenu(file_menu)
         
         # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
-        change_cam_action.setIcon(QIcon("icons/camera.svg"))
         file_menu.addAction(change_cam_action)
 
-        menu_bar.setStyleSheet("background-color: rgb(217,237,247); border: 1px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;")
         self.layout().setMenuBar(menu_bar)
 
         
@@ -100,11 +95,9 @@ class QRScanner(QDialog):
         # Create the layout and add the dropdown menu and button
         layout = QVBoxLayout(self.popup)
         self.combo = QComboBox(self.popup)
-        self.combo.setStyleSheet("background-color: rgb(217,237,247); border: 1px solid rgb(83, 115, 145); border-radius: 5px; padding: 5px;")
         # Move it to the center of the screen
         self.popup.move(500, 500)
         # Add a label to the popup
-        self.popup.setStyleSheet("background-color: rgb(230, 230, 250);")
         self.popup.setWindowTitle("Select Camera")
         self.popup.setWindowFlags(Qt.WindowStaysOnTopHint)
         # Increase size
