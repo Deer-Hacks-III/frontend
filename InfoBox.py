@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QPixmap, QImage, QColor
 import requests
 import Database
+from Reader import ProductReader, Item
 
 class ProductInformation(QDialog):
     def __init__(self, item, parent=None):
@@ -34,6 +35,7 @@ class ProductInformation(QDialog):
         # add a "view alternatives" button
         self.view_alternatives_button = QPushButton("View Alternatives")
         self.layout.addWidget(self.view_alternatives_button)
+        self.view_alternatives_button.clicked.connect(self.alternatives)
         
         
         # Set score color
@@ -57,6 +59,16 @@ class ProductInformation(QDialog):
         db = Database.UPCManager("http://127.0.0.1:5000")
         db.add_upc(self.item.get_upc())
         self.close()
+
+    def alternatives(self):
+        search = ','.join(self.item.categories)
+        response = requests.get(f"https://world.openfoodfacts.net/api/v2/search?categories_tags={search}&sort_by=ecoscore_score")
+        pr = ProductReader()
+        products = []
+        for item in response.json()["products"]:
+            products.append(pr.get_product(item["_id"]))
+        # TODO: list them in a box or pop up or smth
+
 
     def load_image_from_url(self, url):
         response = requests.get(url)
