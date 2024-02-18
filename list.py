@@ -1,12 +1,12 @@
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
     
-from reader import ProductReader, Item
+from Reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
 
@@ -49,16 +49,23 @@ class ListElement(QWidget):
         layout.addWidget(image_label, 1)  # Set stretch factor to 1 for the image
 
         # Product Name
-        name_label = QLabel(item.get_name())
+        name_label = QLabel(f'{item.get_name()}\nProduct Score: {item.get_score()}')
         layout.addWidget(name_label, 2)  # Set stretch factor to 2 for the name
 
         # Remove Button
-        remove_button = QPushButton("Remove")
+        remove_button = QPushButton()
+        remove_button.setIcon(QIcon('icons/trash-can.svg'))
+        remove_button.setMaximumHeight(75)
+        remove_button.setMinimumWidth(85)
         remove_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Set size policy
         remove_button.clicked.connect(self.remove_from_list)
+        remove_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
+                                    QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
         layout.addWidget(remove_button, 1)  # Set stretch factor to 1 for the button
 
-        layout.setContentsMargins(0, 0, 0, 0)  # Remove any margins
+        layout.setContentsMargins(10, 10, 10, 10)
+        self.setStyleSheet("ListElement { background-color: rgb(212,192,217);  border: 1.5px solid rgb(169,130,180); border-radius: 10px;}")
+        self.setAttribute(Qt.WA_StyledBackground)
 
         self.setLayout(layout)
     
