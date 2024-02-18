@@ -45,10 +45,8 @@ class ProductInformation(QDialog):
             green = QColor(0, 255, 100)
             # For every ascii value above ord(a), add red
             ascii -= ord('A')
-            # There are a total of 5 levels, 250/5 = 50
             ascii *= 50
             green.setRed(ascii)
-            green.setGreen(255 - ascii)
         except:
             green = QColor(128, 128, 150)
         self.setStyleSheet(f"background-color: {green.name()}")
@@ -58,6 +56,7 @@ class ProductInformation(QDialog):
     def add_to_list(self):
         db = Database.UPCManager("http://127.0.0.1:5000")
         db.add_upc(self.item.get_upc())
+        self.close()
 
     def load_image_from_url(self, url):
         response = requests.get(url)
