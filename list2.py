@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
 
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
 

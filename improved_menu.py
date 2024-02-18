@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QLabel, \
                              QStackedLayout, QScrollArea)
 from barcode_scanner import QRScanner
 from Database import UPCManager, UPCManagerLocal
-from list import ListScreen, ListElement
+from list2 import ListScreen, ListElement
 
 class MainApplication(QDialog):
 
