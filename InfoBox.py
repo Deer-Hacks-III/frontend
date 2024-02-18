@@ -21,20 +21,29 @@ class ProductInformation(QDialog):
         # Product Score
         self.product_score_label = QLabel(f"<b>Product Score:</b> {product_score}")
         self.layout.addWidget(self.product_score_label)
-
+        
+        # Add an "add to list" button
+        self.add_to_list_button = QPushButton("Add to List")
+        self.layout.addWidget(self.add_to_list_button)
+        
+        # add a "view alternatives" button
+        self.view_alternatives_button = QPushButton("View Alternatives")
+        self.layout.addWidget(self.view_alternatives_button)
+        
+        
         # Set score color
         # Convert product_score into ascii value
-        if product_score == "unknown":
-            # make a gray color
-            green = QColor(128, 128, 128)
-        else:
+        try:
+            product_score = product_score.upper()
             ascii = ord(product_score)
             # Make a very green color 
-            green = QColor(0, 255, 0)
+            green = QColor(0, 255, 100)
             # For every ascii value above ord(a), add red
             ascii -= ord('A')
             ascii *= 50
             green.setRed(ascii)
+        except:
+            green = QColor(128, 128, 150)
         self.setStyleSheet(f"background-color: {green.name()}")
 
         self.setLayout(self.layout)
@@ -61,7 +70,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     product_name = "Product A"
     product_brand = "Brand X"
-    product_image_url = "https://example.com/image.png"
-    product_score = "8.5"
-    product_info = ProductInformation(product_name, product_brand, product_image_url, product_score)
+    product_image_url = "https://avatars.githubusercontent.com/u/62670577?v=4"
+    product_score = "A"
+    product_info = ProductInformation(product_name, product_image_url, product_score)
     product_info.exec_()

@@ -6,10 +6,10 @@ import requests
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QColor, QPixmap, QIcon, QFont
+from PyQt5.QtGui import QImage
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
-    QSplashScreen, QMenu, QAction, QWidget, QVBoxLayout, \
-    QComboBox, QPushButton, QMessageBox, QGridLayout, QLineEdit
+    QMenu, QAction, QWidget, QVBoxLayout, \
+    QComboBox, QPushButton, QMessageBox
 from pyzbar import pyzbar
 
 from Reader import ProductReader, Item

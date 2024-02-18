@@ -1,6 +1,6 @@
 from __future__ import annotations
 import openfoodfacts
-
+import random
 
 class ProductReader:
     """
@@ -18,14 +18,17 @@ class ProductReader:
         """
 
         product = self.openff.product.get(code)
-        name = product['product']['product_name_en']
+        name = product['product'].get('product_name_en', product['product'].get("product_name", ""))
         # In case the product name was not filled
         if name == "":
             name = product['product']['ecoscore_data']['agribalyse']['name_en']
 
-        image = product['product']['selected_images']['front']['display']['en']
+        image = product['product']['selected_images']['front']['display']
+        # Pick a random image from the list of images
+        keys = list(image.keys())
+        image = image[random.choice(keys)]
         eco_grade = product['product']['ecoscore_grade']
-        new_item = Item(name, image, eco_grade)
+        new_item = Item(name, image, eco_grade, code)
         return new_item
 
 
@@ -37,11 +40,11 @@ class Item:
     image: str
     eco_grade: str
 
-    def __init__(self, name: str, image: str, eco_grade: str ) -> None:
+    def __init__(self, name: str, image: str, eco_grade: str, upc: int = None) -> None:
         self.name = name
         self.image = image
         self.eco_grade = eco_grade
-
+        self.upc = upc
     def __str__(self) -> str:
         return (f"{self.name}: \neco_grade: {self.eco_grade}"
               f"\nimage url:{self.image}")
@@ -56,6 +59,9 @@ class Item:
 
     def get_score(self) -> str:
         return self.eco_grade
+    
+    def get_upc(self) -> int:
+        return self.upc
 
 
 if __name__ == "__main__":
