@@ -6,7 +6,7 @@ import requests
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QImage, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
@@ -56,6 +56,8 @@ class QRScanner(QDialog):
 
         # Add a button to capture an image
         self.capture_button = QPushButton("Scan")
+        self.capture_button.setStyleSheet("QPushButton {background-color: rgb(217,237,247); border: 2px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;} \
+                                    QPushButton:hover {background-color: rgb(175,217,238); border: 2px solid rgb(42, 82, 120);}")
         self.capture_button.clicked.connect(self.capture_image)
         layout.addWidget(self.capture_button)
 
@@ -74,13 +76,16 @@ class QRScanner(QDialog):
         """
         menu_bar = QMenuBar(self)
         file_menu = QMenu("File", self)
+        file_menu.setStyleSheet("background-color: rgb(217,237,247); selection-background-color: rgb(145, 176, 250);")
         menu_bar.addMenu(file_menu)
         
         # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
+        change_cam_action.setIcon(QIcon("icons/camera.svg"))
         file_menu.addAction(change_cam_action)
 
+        menu_bar.setStyleSheet("background-color: rgb(217,237,247); border: 1px solid rgb(83, 115, 145); border-radius: 10px; padding: 5px;")
         self.layout().setMenuBar(menu_bar)
 
         
