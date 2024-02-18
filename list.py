@@ -1,11 +1,11 @@
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QIcon, QPalette, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
-    
+
 from Reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
@@ -45,20 +45,29 @@ class ListElement(QWidget):
         # Product Image
         image_label = QLabel()
         pixmap = self.load_image_from_url(item.get_img())
+        image_label.setStyleSheet("border-radius: 10px;")
         image_label.setPixmap(pixmap.scaledToWidth(75))  # Adjust width as needed
         layout.addWidget(image_label, 1)  # Set stretch factor to 1 for the image
 
         # Product Name
         name_label = QLabel(item.get_name())
+        name_label.setStyleSheet("color: rgb(0, 26, 69);")
         layout.addWidget(name_label, 2)  # Set stretch factor to 2 for the name
 
         # Remove Button
-        remove_button = QPushButton("Remove")
+        remove_button = QPushButton("")
+        trash_icon = QIcon('icons/trash-can.svg')
+        remove_button.setIcon(QIcon(trash_icon))
+        remove_button.setStyleSheet("background-color: rgb(194, 217, 255); border: 1px solid blue; border-radius: 10px;")
+        remove_button.setMinimumWidth(85)
         remove_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Set size policy
         remove_button.clicked.connect(self.remove_from_list)
         layout.addWidget(remove_button, 1)  # Set stretch factor to 1 for the button
 
-        layout.setContentsMargins(0, 0, 0, 0)  # Remove any margins
+        layout.setContentsMargins(10, 10, 10, 10)  # Remove any margins
+        self.setStyleSheet("ListElement { background-color: rgb(219, 143, 255);  border: 1.5px solid purple; border-radius: 10px;}")
+        self.setAttribute(Qt.WA_StyledBackground)
+        
 
         self.setLayout(layout)
     
