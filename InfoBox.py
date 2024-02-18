@@ -2,9 +2,14 @@ import sys
 from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QPushButton
 from PyQt5.QtGui import QPixmap, QImage, QColor
 import requests
+import Database
 
 class ProductInformation(QDialog):
-    def __init__(self, product_name, product_image_url, product_score, parent=None):
+    def __init__(self, item, parent=None):
+        self.item = item
+        product_name = item.get_name()
+        product_image_url = item.get_img()
+        product_score = item.get_score()
         super(ProductInformation, self).__init__(parent)
         self.setWindowTitle("Product Information")
         self.layout = QVBoxLayout()
@@ -25,7 +30,7 @@ class ProductInformation(QDialog):
         # Add an "add to list" button
         self.add_to_list_button = QPushButton("Add to List")
         self.layout.addWidget(self.add_to_list_button)
-        
+        self.add_to_list_button.clicked.connect(self.add_to_list)
         # add a "view alternatives" button
         self.view_alternatives_button = QPushButton("View Alternatives")
         self.layout.addWidget(self.view_alternatives_button)
@@ -47,6 +52,10 @@ class ProductInformation(QDialog):
         self.setStyleSheet(f"background-color: {green.name()}")
 
         self.setLayout(self.layout)
+
+    def add_to_list(self):
+        db = Database.UPCManager("http://127.0.0.1:5000")
+        db.add_upc(self.item.get_upc())
 
     def load_image_from_url(self, url):
         response = requests.get(url)

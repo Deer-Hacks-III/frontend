@@ -9,7 +9,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, \
-    QComboBox, QPushButton, QMessageBox
+    QComboBox, QPushButton, QMessageBox, QStatusBar, QDialog, QMenuBar
 from pyzbar import pyzbar
 
 from Reader import ProductReader, Item
@@ -27,34 +27,61 @@ class QRScanner(QMainWindow):
     capture_button: QtWidgets.QPushButton
     camera_view: QtMultimediaWidgets.QCameraViewfinder
 
+class QRScanner(QDialog):
+    """
+    Dialog for QR scanning
+    """
+
+    combo: Optional[QComboBox]
+    camera: QtMultimedia.QCamera
+    capture_button: QtWidgets.QPushButton
+    camera_view: QtMultimediaWidgets.QCameraViewfinder
+
     def __init__(self) -> None:
         """
-        Initialize the main window
+        Initialize the dialog
         """
         super().__init__()
-        self.combo = None
         self.setWindowTitle("BargainPro Vbeta.1.0.0 - QR Scanner")
         self.setGeometry(100, 100, 800, 600)
+
+        layout = QVBoxLayout(self)
 
         self.camera = QtMultimedia.QCamera()
         self.camera_view = QtMultimediaWidgets.QCameraViewfinder()
         self.camera.setViewfinder(self.camera_view)
         self.camera.start()
 
-        self.setCentralWidget(self.camera_view)
+        layout.addWidget(self.camera_view)
+
         # Add a button to capture an image
-        self.capture_button = QtWidgets.QPushButton("Scan")
+        self.capture_button = QPushButton("Scan")
         self.capture_button.clicked.connect(self.capture_image)
-        self.statusBar().addPermanentWidget(self.capture_button)
+        layout.addWidget(self.capture_button)
+
         self.camera.setCaptureMode(QtMultimedia.QCamera.CaptureStillImage)
         self.current_index = 0
+
+        # Add menu bar
+        self.create_menu_bar()
+
+        self.reader = ProductReader()
+
+
+    def create_menu_bar(self):
+        """
+        Create and set the menu bar
+        """
+        menu_bar = QMenuBar(self)
         file_menu = QMenu("File", self)
-        self.menuBar().addMenu(file_menu)
-        # add a change camera option to the file menu
+        menu_bar.addMenu(file_menu)
+        
+        # Add a change camera option to the file menu
         change_cam_action = QAction("Change Camera", self)
         change_cam_action.triggered.connect(self.change_cam)
         file_menu.addAction(change_cam_action)
-        self.reader = ProductReader()
+
+        self.layout().setMenuBar(menu_bar)
 
         
     def change_cam(self) -> None:
@@ -62,7 +89,7 @@ class QRScanner(QMainWindow):
         Method that changes the camera source
         Preconditions: There exists at least one camera attached to the computer
         """
-        self.popup = QWidget()
+        self.popup = QDialog()
         self.popup.setGeometry(100, 100, 200, 100)
 
         # Create the layout and add the dropdown menu and button
@@ -91,7 +118,7 @@ class QRScanner(QMainWindow):
         button.setText("OK")
         layout.addWidget(button)
         button.clicked.connect(self.on_cam_select)
-        self.popup.show()
+        self.popup.exec()
 
     def on_cam_select(self) -> None:
         """
@@ -135,7 +162,7 @@ class QRScanner(QMainWindow):
             msg.setWindowFlags(Qt.WindowStaysOnTopHint)
             msg.exec_()
             return
-        popup = ProductPopup(item.name, item.image, item.eco_grade)
+        popup = ProductPopup(item)
         popup.exec_()
 
 

@@ -29,7 +29,7 @@ class ProductReader:
         keys = list(image.keys())
         image = image[random.choice(keys)]
         eco_grade = product['product']['ecoscore_grade']
-        new_item = Item(name, image, eco_grade, code)
+        new_item = Item(name, image, eco_grade, self._get_materials(product), self._get_categories(product), code)
         return new_item
 
     def _get_materials(self, item: dict) -> int:
