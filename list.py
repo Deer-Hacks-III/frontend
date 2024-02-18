@@ -1,4 +1,3 @@
-import sys
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PyQt5.QtCore import Qt
@@ -21,14 +20,13 @@ class ListScreen(QDialog):
         self.update_list(db.get_all_upcs())
         
     def update_list(self, upcs: list[str]):
-        if self.layout is None:
+        if not self.layout:
             self.layout = QVBoxLayout()
             self.setLayout(self.layout)
         else:
             # Clear the layout
-            if self.layout.count() > 0:
-                for i in reversed(range(self.layout.count())):
-                    self.layout.itemAt(i).widget().setParent(None)
+            for i in reversed(range(self.layout.count())):
+                self.layout.itemAt(i).widget().setParent(None)
         self.items = []
         self.pr = ProductReader()
         for upc in upcs:
@@ -65,7 +63,6 @@ class ListElement(QWidget):
         self.setLayout(layout)
     
     def remove_from_list(self):
-        
         self._parent.db.delete_upc(self.item.get_upc())        
         # Oh my god this is the nastiest hack of the entire codebase
         # The sheer fact that this works is nothing short of a miracle
@@ -91,4 +88,4 @@ if __name__ == "__main__":
     database.upcs = ["8410199271396", "3168930158905"]
     ls = ListScreen(database)
     ls.show()
-    sys.exit(app.exec_())
+    app.exec_()
