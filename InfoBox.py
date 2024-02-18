@@ -56,6 +56,7 @@ class ProductInformation(QDialog):
     def add_to_list(self):
         db = Database.UPCManager("http://127.0.0.1:5000")
         db.add_upc(self.item.get_upc())
+        self.close()
 
     def load_image_from_url(self, url):
         response = requests.get(url)
