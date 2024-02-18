@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, \
     QMenu, QAction, QWidget, QVBoxLayout, QHBoxLayout, \
     QComboBox, QPushButton, QMessageBox, QDialog, QSizePolicy
     
-from Reader import ProductReader, Item
+from reader import ProductReader, Item
 import requests
 from Database import UPCManager, UPCManagerLocal
 
@@ -20,7 +20,7 @@ class ListScreen(QDialog):
         self.update_list(db.get_all_upcs())
         
     def update_list(self, upcs: list[str]):
-        if not self.layout:
+        if self.layout is None:
             self.layout = QVBoxLayout()
             self.setLayout(self.layout)
         else:
