@@ -61,7 +61,7 @@ class ProductInformation(QDialog):
         self.close()
 
     def alternatives(self):
-        search = ','.join(self.item.categories)
+        search = ','.join(self.item.cat)
         response = requests.get(f"https://world.openfoodfacts.net/api/v2/search?categories_tags={search}&sort_by=ecoscore_score")
         pr = ProductReader()
         products = []
