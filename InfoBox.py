@@ -67,6 +67,7 @@ class ProductInformation(QDialog):
         products = []
         for item in response.json()["products"]:
             products.append(pr.get_product(item["_id"]))
+        print(products)
         # TODO: list them in a box or pop up or smth
 
 
